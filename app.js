@@ -94,7 +94,7 @@
                 '<div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline">' +
                 '</i></button></div></div></div>';
             } else if (type === 'exp') {
-                element = DOMStrings.expenseContainer;
+                element = DOMstrings.expenseContainer;
                 
                 html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div>' +
                 '<div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div>' +
@@ -109,6 +109,22 @@
 
             // Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+        },
+
+        clearFields: function() {
+            var fields;
+
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + 
+            DOMstrings.inputValue);
+
+            var fieldsArr = Array.prototype.slice.call(fields);
+
+            fieldsArr.forEach(function(current) {
+                current.value = "";
+            });
+
+            fieldsArr[0].focus();
+
         },
 
         getDOMstrings: function() {
@@ -154,9 +170,12 @@
         // 3. Add the new item to the UI
         UIController.addListItem(newItem, input.type);
         
-        // 4. Calculate the budget 
+        // 4. Clear the fields
+        UICtrl.clearFields();
 
-        // 5. Display the budget on the UI
+        // 5. Calculate the budget 
+
+        // 6. Display the budget on the UI
 
     };
 
