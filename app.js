@@ -197,6 +197,12 @@
         return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
     };
 
+    var nodeListForEach = function(list, callback) {
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
+    };
+
     return {
         getInput: function() {
 
@@ -281,12 +287,6 @@
 
             var fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
 
-            var nodeListForEach = function(list, callback) {
-                for (var i = 0; i < list.length; i++) {
-                    callback(list[i], i);
-                }
-            };
-
             nodeListForEach(fields, function(currentNode, index) {
                 
                 if (percentages[index] > 0) {
@@ -310,6 +310,20 @@
 
             year = now.getFullYear();
             document.querySelector(DOMstrings.dataLabel).textContent = months[month] + ' ' + year;
+        },
+
+        changedType: function() {
+        
+            var fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue);
+
+            nodeListForEach(fields, function(current) {
+                current.classList.toggle('red-focus');
+            });
+
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
         },
 
         getDOMstrings: function() {
@@ -338,6 +352,7 @@
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
 
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
     };
     
     var updateBudget = function() {
